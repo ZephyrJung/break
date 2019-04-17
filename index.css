@@ -1,0 +1,9 @@
+body {
+    background-image: url("resources/test.jpg");
+}
+
+#main {
+    margin-top: 100px;
+    text-align: center;
+    color: white;
+}
