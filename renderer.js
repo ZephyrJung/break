@@ -6,12 +6,12 @@ const title = document.getElementById("title");
 const content = document.getElementById("content");
 const count = document.getElementById("count");
 
-title.innerText = settings.messages[0].title;
-content.innerText = settings.messages[0].content;
 var time = 30;
 setInterval(function () {
-    time = time - 1;
-    count.innerText = time;
-    if (time == 0) {
+    if (time > 0) {
+        time = time - 1;
     }
+    count.innerText = time;
+    title.innerText = settings.messages[time].title;
+    content.innerText = settings.messages[time].content;
 }, 1000);
