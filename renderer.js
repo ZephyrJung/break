@@ -3,6 +3,7 @@
 // All of the Node.js APIs are available in this process.
 const ipcRenderer = require('electron').ipcRenderer;
 const settings = require("./settings");
+
 const title = document.getElementById("title");
 const content = document.getElementById("content");
 const count = document.getElementById("count");
