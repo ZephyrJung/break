@@ -20,3 +20,4 @@ var interval = setInterval(function () {
     title.innerText = settings.messages[time].title;
     content.innerText = settings.messages[time].content;
 }, 1000);
+
