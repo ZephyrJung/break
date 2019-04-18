@@ -1,3 +1,4 @@
+const electron = require('electron');
 const {ipcMain, app, BrowserWindow, Menu, Tray, globalShortcut} = require('electron');
 const path = require('path');
 
@@ -6,9 +7,11 @@ const path = require('path');
 let mainWindow;
 let appIcon = null;
 
-function createWindow() {
+function createWindow(x, y) {
     // Create the browser window.
     mainWindow = new BrowserWindow({
+        x: x,
+        y: y,
         width: 800,
         height: 600,
         frame: false,
@@ -38,7 +41,11 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-    createWindow();
+    let displays = electron.screen.getAllDisplays();
+    displays.forEach((d) => {
+        //todo need calculate
+        createWindow(d.workArea.x,d.workArea.y);
+    });
     const iconPath = path.join(__dirname, "icon.png");
     appIcon = new Tray(iconPath);
 
@@ -51,9 +58,9 @@ app.on('ready', () => {
     appIcon.setToolTip('Break Icon in the tray.');
     appIcon.setContextMenu(contextMenu);
 
-    const ret = globalShortcut.register("CommandOrControl+Q",()=>{
+    globalShortcut.register("CommandOrControl+Q", () => {
         console.log("quit not allowed");
-    })
+    });
 });
 
 // Quit when all windows are closed.
