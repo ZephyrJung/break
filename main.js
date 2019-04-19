@@ -43,25 +43,25 @@ app.on('ready', () => {
             {
                 label: "5 秒(TEST)",
                 click: () => {
-                    mainWindows[0].webContents.send('SET_TIME',5 * 1000);
+                    mainWindows[0].webContents.send('SET_TIME', 5 * 1000);
                 }
             },
             {
                 label: "30 分钟",
                 click: () => {
-                    mainWindows[0].webContents.send('SET_TIME',5 * 1000);
+                    mainWindows[0].webContents.send('SET_TIME', 5 * 1000);
                 }
             },
             {
                 label: "1小时",
                 checked: true,
                 click: () => {
-                    mainWindows[0].webContents.send('SET_TIME',5 * 1000);
+                    mainWindows[0].webContents.send('SET_TIME', 5 * 1000);
                 }
             }, {
                 label: "2小时",
                 click: () => {
-                    mainWindows[0].webContents.send('SET_TIME',5 * 1000);
+                    mainWindows[0].webContents.send('SET_TIME', 5 * 1000);
                 }
             }],
     }]);
@@ -77,17 +77,17 @@ app.on('window-all-closed', function () {
 });
 
 ipcMain.on('hide-window', function (event, arg) {
-    if (arg === "ping") {
-        mainWindows.forEach(function (value) {
-            value.hide();
-        });
-    }
+    mainWindows.forEach(function (value, index) {
+        value.hide();
+    });
+    event.sender.send('RESTART_WORK');
 });
 
-ipcMain.on('show-window', () => {
-    mainWindows.forEach(function (value) {
+ipcMain.on('show-window', (event) => {
+    mainWindows.forEach(function (value, index) {
         value.show();
     });
+    event.sender.send('STOP_WORK');
 });
 
 ipcMain.on('SET_TIME', (event, arg) => {

@@ -13,27 +13,25 @@ const BREAK_TIME = 10 * 1000;
 
 var waitTime = WAIT_TIME;
 var breakTime = BREAK_TIME; //5 * 60 * 1000
-var breakFlag = false;
+// var breakFlag = false;
 
-while (breakFlag) {
+ipcRenderer.send('hide-window');
+
+/*while (breakFlag) {
     breakTime = breakTime - 1000;
     count.innerText = breakTime;
     title.innerText = settings.messages[breakTime].title;
     content.innerText = settings.messages[breakTime].content;
-}
+}*/
 
-setInterval(() => {
-    ipcRenderer.send('show-window');
-    breakFlag = true;
+ipcRenderer.on('RESTART_WORK', () => {
     setTimeout(() => {
-        ipcRenderer.send('hide-window', 'ping');
-        breakFlag = false;
-        breakTime = BREAK_TIME;
-    }, breakTime)
-    //todo 待参数化
-}, waitTime);
+        ipcRenderer.send('show-window')
+    }, WAIT_TIME) // 过等待时间后显示窗口，即工作时间
+});
 
-ipcRenderer.on('SET_TIME', (event, arg) => {
-    console.log(arg);
-    time = arg
+ipcRenderer.on('STOP_WORK', () => {
+    setTimeout(() => {
+        ipcRenderer.send('hide-window')
+    }, BREAK_TIME)// 过休息时间后关闭窗口，即休息时间
 });
