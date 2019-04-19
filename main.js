@@ -2,11 +2,14 @@ const electron = require('electron');
 const {ipcMain, app, BrowserWindow, Menu, Tray, globalShortcut} = require('electron');
 const path = require('path');
 
-let mainWindow;
+let mainWindows = [];
 let appIcon = null;
 
+const iconPath = path.join(__dirname, "icon.png");
+
+
 function createWindow(x, y, width, height) {
-    mainWindow = new BrowserWindow({
+    let mainWindow = new BrowserWindow({
         x: x,
         y: y,
         width: width,
@@ -14,28 +17,53 @@ function createWindow(x, y, width, height) {
         frame: false,
         resizable: false,
         alwaysOnTop: true,
+        show: false,
         webPreferences: {
             nodeIntegration: true
         }
     });
-    mainWindow.loadFile('index.html')
+    mainWindow.loadFile('index.html');
     mainWindow.on('closed', function () {
         mainWindow = null
-    })
+    });
+    mainWindows.push(mainWindow);
 }
 
 app.on('ready', () => {
     let displays = electron.screen.getAllDisplays();
     displays.forEach((d) => {
+        // createWindow(d.workArea.x + d.workArea.width / 2 - 400, d.workArea.y + d.workArea.height / 2 - 300, 800, 600)
         createWindow(d.workArea.x, d.workArea.y, d.workArea.width, d.workArea.height)
     });
-    const iconPath = path.join(__dirname, "icon.png");
     appIcon = new Tray(iconPath);
+
     const contextMenu = Menu.buildFromTemplate([{
-        label: 'Remove',
-        click: () => {
-            event.sender.send('tray-removed');
-        }
+        label: '休息间隔',
+        submenu: [
+            {
+                label: "5 秒(TEST)",
+                click: () => {
+                    mainWindows[0].webContents.send('SET_TIME',5 * 1000);
+                }
+            },
+            {
+                label: "30 分钟",
+                click: () => {
+                    mainWindows[0].webContents.send('SET_TIME',5 * 1000);
+                }
+            },
+            {
+                label: "1小时",
+                checked: true,
+                click: () => {
+                    mainWindows[0].webContents.send('SET_TIME',5 * 1000);
+                }
+            }, {
+                label: "2小时",
+                click: () => {
+                    mainWindows[0].webContents.send('SET_TIME',5 * 1000);
+                }
+            }],
     }]);
     appIcon.setToolTip('Break Icon in the tray.');
     appIcon.setContextMenu(contextMenu);
@@ -48,23 +76,23 @@ app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit()
 });
 
-app.on('activate', function () {
-    if (mainWindow === null) createWindow()
-});
-
-ipcMain.on('asynchronous-message', function (event, arg) {
-
+ipcMain.on('hide-window', function (event, arg) {
     if (arg === "ping") {
-        mainWindow.hide();
-        setTimeout(function () {
-            mainWindow.show();
-            event.sender.send('asynchronous-reply', 'pong')
-        }, 1000)
+        mainWindows.forEach(function (value) {
+            value.hide();
+        });
     }
 });
 
-ipcMain.on('remove-tray', () => {
-    appIcon.destroy();
+ipcMain.on('show-window', () => {
+    mainWindows.forEach(function (value) {
+        value.show();
+    });
+});
+
+ipcMain.on('SET_TIME', (event, arg) => {
+    console.log('click menu ' + arg);
+    event.sender.send('SET_TIME', arg)
 });
 
 app.on('window-all-closed', () => {
