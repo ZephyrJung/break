@@ -95,6 +95,11 @@ app.on('ready', () => {
                 mainWindows[0].webContents.send('SEND_BREAK_TIME', 5 * 60 * 1000);
             }
         }]
+    },{
+        label: "退出",
+        click: ()=>{
+            app.quit();
+        }
     }]);
     appIcon.setToolTip('Break Icon in the tray.');
     appIcon.setContextMenu(contextMenu);

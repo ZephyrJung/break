@@ -13,3 +13,8 @@
 - [ ] 插件系统，用于在页面上显示各种类型的信息，如git board issues
 - [ ] 设置，包括时长设置，主题设置（风景、美女、汽车等……）
 
+
+### 构建步骤
+
+1. https://iconverticons.com/online/ png转换为icns
+2. electron-packager ./ break --out ./OutApp --electron-version 4.1.4 --overwrite --icon=./icon.png
