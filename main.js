@@ -6,6 +6,8 @@ let mainWindows = [];
 let appIcon = null;
 
 const iconPath = path.join(__dirname, "icon.png");
+const loginItemSettings = app.getLoginItemSettings();
+const openAtLogin = loginItemSettings.openAtLogin;
 
 function createWindow(x, y, width, height) {
     let mainWindow = new BrowserWindow({
@@ -39,14 +41,14 @@ app.on('ready', () => {
     const contextMenu = Menu.buildFromTemplate([{
         label: '休息间隔',
         submenu: [
-            {
+            /*{
                 label: "5 秒(TEST)",
                 type: "radio",
                 checked: true,
                 click: () => {
                     mainWindows[0].webContents.send('SET_WAIT_TIME', 5 * 1000);
                 }
-            },
+            },*/
             {
                 label: "30 分钟",
                 type: "radio",
@@ -57,6 +59,7 @@ app.on('ready', () => {
             {
                 label: "1小时",
                 type: "radio",
+                checked: true,
                 click: () => {
                     mainWindows[0].webContents.send('SET_WAIT_TIME', 60 * 60 * 1000);
                 }
@@ -69,35 +72,44 @@ app.on('ready', () => {
             }],
     }, {
         label: "休息时长",
-        submenu: [{
-            label: "3 秒钟(TEST)",
-            type: "radio",
-            checked: true,
-            click: () => {
-                mainWindows[0].webContents.send('SEND_BREAK_TIME', 3 * 1000);
-            }
-        }, {
-            label: "30 秒",
-            type: "radio",
-            click: () => {
-                mainWindows[0].webContents.send('SEND_BREAK_TIME', 30 * 1000);
-            }
-        }, {
-            label: "1 分钟",
-            type: "radio",
-            click: () => {
-                mainWindows[0].webContents.send('SEND_BREAK_TIME', 60 * 1000);
-            }
-        }, {
-            label: "5 分钟",
-            type: "radio",
-            click: () => {
-                mainWindows[0].webContents.send('SEND_BREAK_TIME', 5 * 60 * 1000);
-            }
-        }]
-    },{
+        submenu: [
+            /*{
+                label: "3 秒钟(TEST)",
+                type: "radio",
+                checked: true,
+                click: () => {
+                    mainWindows[0].webContents.send('SEND_BREAK_TIME', 3 * 1000);
+                }
+            }, */{
+                label: "30 秒",
+                type: "radio",
+                click: () => {
+                    mainWindows[0].webContents.send('SEND_BREAK_TIME', 30 * 1000);
+                }
+            }, {
+                label: "1 分钟",
+                type: "radio",
+                click: () => {
+                    mainWindows[0].webContents.send('SEND_BREAK_TIME', 60 * 1000);
+                }
+            }, {
+                label: "5 分钟",
+                type: "radio",
+                checked: true,
+                click: () => {
+                    mainWindows[0].webContents.send('SEND_BREAK_TIME', 5 * 60 * 1000);
+                }
+            }]
+    }, {
+        label: "开机启动",
+        type: "checkbox",
+        checked: openAtLogin,
+        click: () => {
+            app.setLoginItemSettings({openAtLogin: !openAtLogin})
+        }
+    }, {
         label: "退出",
-        click: ()=>{
+        click: () => {
             app.quit();
         }
     }]);
