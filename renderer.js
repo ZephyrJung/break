@@ -3,8 +3,8 @@
 // All of the Node.js APIs are available in this process.
 const ipcRenderer = require('electron').ipcRenderer;
 
-var WAIT_TIME = 5 * 1000;
-var BREAK_TIME = 3 * 1000;
+var WAIT_TIME = 60 * 60 * 1000;
+var BREAK_TIME = 5 * 60 * 1000;
 
 // true表示正在休息，false表示正在工作
 var BREAK_FLAG = false;
