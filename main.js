@@ -67,9 +67,8 @@ app.on('ready', () => {
     }]);
     appIcon.setToolTip('Break Icon in the tray.');
     appIcon.setContextMenu(contextMenu);
-    /*    globalShortcut.register("CommandOrControl+Q", () => {
-            console.log("quit not allowed");
-        });*/
+    globalShortcut.register("CommandOrControl+Q", () => { });
+    globalShortcut.register("CommandOrControl+W", () => { });
 });
 
 app.on('window-all-closed', function () {
@@ -97,5 +96,6 @@ ipcMain.on('SET_TIME', (event, arg) => {
 
 app.on('window-all-closed', () => {
     if (appIcon) appIcon.destroy();
-    // globalShortcut.unregister('CommandOrControl+Q');
+    globalShortcut.unregister('CommandOrControl+Q');
+    globalShortcut.unregister('CommandOrControl+W');
 });
