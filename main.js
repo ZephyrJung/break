@@ -7,7 +7,6 @@ let appIcon = null;
 
 const iconPath = path.join(__dirname, "icon.png");
 
-
 function createWindow(x, y, width, height) {
     let mainWindow = new BrowserWindow({
         x: x,
@@ -42,33 +41,63 @@ app.on('ready', () => {
         submenu: [
             {
                 label: "5 秒(TEST)",
+                type: "radio",
+                checked: true,
                 click: () => {
-                    mainWindows[0].webContents.send('SET_TIME', 5 * 1000);
+                    mainWindows[0].webContents.send('SET_WAIT_TIME', 5 * 1000);
                 }
             },
             {
                 label: "30 分钟",
+                type: "radio",
                 click: () => {
-                    mainWindows[0].webContents.send('SET_TIME', 5 * 1000);
+                    mainWindows[0].webContents.send('SET_WAIT_TIME', 30 * 60 * 1000);
                 }
             },
             {
                 label: "1小时",
-                checked: true,
+                type: "radio",
                 click: () => {
-                    mainWindows[0].webContents.send('SET_TIME', 5 * 1000);
+                    mainWindows[0].webContents.send('SET_WAIT_TIME', 60 * 60 * 1000);
                 }
             }, {
                 label: "2小时",
+                type: "radio",
                 click: () => {
-                    mainWindows[0].webContents.send('SET_TIME', 5 * 1000);
+                    mainWindows[0].webContents.send('SET_WAIT_TIME', 2 * 60 * 60 * 1000);
                 }
             }],
+    }, {
+        label: "休息时长",
+        submenu: [{
+            label: "3 秒钟(TEST)",
+            type: "radio",
+            checked: true,
+            click: () => {
+                mainWindows[0].webContents.send('SEND_BREAK_TIME', 3 * 1000);
+            }
+        }, {
+            label: "30 秒",
+            type: "radio",
+            click: () => {
+                mainWindows[0].webContents.send('SEND_BREAK_TIME', 30 * 1000);
+            }
+        }, {
+            label: "1 分钟",
+            type: "radio",
+            click: () => {
+                mainWindows[0].webContents.send('SEND_BREAK_TIME', 60 * 1000);
+            }
+        }, {
+            label: "5 分钟",
+            type: "radio",
+            click: () => {
+                mainWindows[0].webContents.send('SEND_BREAK_TIME', 5 * 60 * 1000);
+            }
+        }]
     }]);
     appIcon.setToolTip('Break Icon in the tray.');
     appIcon.setContextMenu(contextMenu);
-    globalShortcut.register("CommandOrControl+Q", () => { });
-    globalShortcut.register("CommandOrControl+W", () => { });
 });
 
 app.on('window-all-closed', function () {
@@ -76,6 +105,8 @@ app.on('window-all-closed', function () {
 });
 
 ipcMain.on('hide-window', function (event, arg) {
+    globalShortcut.unregister('CommandOrControl+Q');
+    globalShortcut.unregister('CommandOrControl+W');
     mainWindows.forEach(function (value, index) {
         value.hide();
     });
@@ -83,19 +114,16 @@ ipcMain.on('hide-window', function (event, arg) {
 });
 
 ipcMain.on('show-window', (event) => {
+    globalShortcut.register("CommandOrControl+Q", () => {
+    });
+    globalShortcut.register("CommandOrControl+W", () => {
+    });
     mainWindows.forEach(function (value, index) {
         value.show();
     });
     event.sender.send('STOP_WORK');
 });
 
-ipcMain.on('SET_TIME', (event, arg) => {
-    console.log('click menu ' + arg);
-    event.sender.send('SET_TIME', arg)
-});
-
 app.on('window-all-closed', () => {
     if (appIcon) appIcon.destroy();
-    globalShortcut.unregister('CommandOrControl+Q');
-    globalShortcut.unregister('CommandOrControl+W');
 });
