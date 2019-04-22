@@ -21,3 +21,7 @@
 
 1. https://iconverticons.com/online/ png转换为icns
 2. electron-packager ./ break --out ./OutApp --electron-version 4.1.4 --overwrite --icon=./icon.png
+
+### 说明
+
+1. 注意代码中的default.jpg需要自己找图片
