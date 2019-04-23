@@ -41,14 +41,14 @@ app.on('ready', () => {
     const contextMenu = Menu.buildFromTemplate([{
         label: '休息间隔',
         submenu: [
-            /*{
+            {
                 label: "5 秒(TEST)",
                 type: "radio",
                 checked: true,
                 click: () => {
                     mainWindows[0].webContents.send('SET_WAIT_TIME', 5 * 1000);
                 }
-            },*/
+            },
             {
                 label: "30 分钟",
                 type: "radio",
