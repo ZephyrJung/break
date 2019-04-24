@@ -26,6 +26,13 @@ ipcRenderer.on('STOP_WORK', () => {
     break_loop = setTimeout(() => {
         ipcRenderer.send('hide-window')
     }, BREAK_TIME)// 过休息时间后关闭窗口，即休息时间
+    let current_break_time = BREAK_TIME;
+    let break_count = setInterval(() => {
+        current_break_time = current_break_time - 1000;
+        if (current_break_time <= 0) {
+            clearInterval(break_count);
+        }
+    }, 1000)
 });
 
 ipcRenderer.on('SET_WAIT_TIME', (event, arg) => {
