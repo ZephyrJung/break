@@ -2,15 +2,16 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 const ipcRenderer = require('electron').ipcRenderer;
+const moment= require('moment');
 
-var WAIT_TIME = 60 * 60 * 1000;
-var BREAK_TIME = 5 * 60 * 1000;
+let WAIT_TIME = 60 * 60 * 1000;
+let BREAK_TIME = 5 * 60 * 1000;
 
 // true表示正在休息，false表示正在工作
-var BREAK_FLAG = false;
+let BREAK_FLAG = false;
 
-var wait_loop;
-var break_loop;
+let wait_loop;
+let break_loop;
 
 ipcRenderer.send('hide-window');
 
