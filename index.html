@@ -9,25 +9,5 @@
 <script>
     require('./renderer.js');
 </script>
-<script>
-    let current = 5 * 60;
-    setInterval(() => {
-        current = current - 1;
-        document.getElementById("clock").innerText = formatSeconds(current);
-    }, 1000);
-</script>
-<script>
-    function formatSeconds(seconds) {
-        let minutes = seconds / 60;
-        seconds = seconds - minutes * 60;
-        if (minutes < 10) {
-            minutes = "0" + minutes;
-        }
-        if (seconds < 10) {
-            seconds = "0" + seconds;
-        }
-        return minutes + ":" + seconds;
-    }
-</script>
 </body>
 </html>
