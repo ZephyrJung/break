@@ -38,16 +38,28 @@ ipcMain.on('hide-window', function (event, arg) {
 });
 
 ipcMain.on('show-window', (event) => {
-    globalShortcut.register("CommandOrControl+Q", () => {
-
-    });
-    globalShortcut.register("CommandOrControl+W", () => {
-
-    });
     mainWindows.forEach(function (value, index) {
         value.show();
     });
     event.sender.send('STOP_WORK');
+    //跳过本次休息
+    globalShortcut.register("CommandOrControl+Q", () => {
+        globalShortcut.unregister('CommandOrControl+Q');
+        globalShortcut.unregister('CommandOrControl+W');
+        mainWindows.forEach(function (value, index) {
+            value.hide();
+        });
+        event.sender.send('RESTART_WORK');
+    });
+    //推迟本次休息3分钟
+    globalShortcut.register("CommandOrControl+W", () => {
+        globalShortcut.unregister('CommandOrControl+Q');
+        globalShortcut.unregister('CommandOrControl+W');
+        mainWindows.forEach(function (value, index) {
+            value.hide();
+        });
+        event.sender.send('RESTART_WORK',60*1000*3);
+    });
 });
 
 app.on('window-all-closed', () => {

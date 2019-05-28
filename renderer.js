@@ -20,11 +20,14 @@ let break_loop;
 
 ipcRenderer.send('hide-window');
 
-ipcRenderer.on('RESTART_WORK', () => {
+ipcRenderer.on('RESTART_WORK', (parameter) => {
+    if (!parameter) {
+        parameter = WAIT_TIME;
+    }
     BREAK_FLAG = false;
     wait_loop = setTimeout(() => {
         ipcRenderer.send('show-window')
-    }, WAIT_TIME) // 过等待时间后显示窗口，即工作时间
+    }, parameter) // 过等待时间后显示窗口，即工作时间
 });
 
 ipcRenderer.on('STOP_WORK', () => {
