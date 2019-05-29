@@ -21,20 +21,28 @@ let break_loop;
 ipcRenderer.send('hide-window');
 
 ipcRenderer.on('RESTART_WORK', (parameter) => {
-    if (!parameter) {
-        parameter = WAIT_TIME;
+    if (!BREAK_FLAG) {
+        return;
     }
+    let waitTime = parameter[0];
+    if (!waitTime) {
+        waitTime = WAIT_TIME;
+    }
+    ipcRenderer.send('test',waitTime);
     BREAK_FLAG = false;
     wait_loop = setTimeout(() => {
         ipcRenderer.send('show-window')
-    }, parameter) // 过等待时间后显示窗口，即工作时间
+    }, waitTime) // 过等待时间后显示窗口，即工作时间
 });
 
 ipcRenderer.on('STOP_WORK', () => {
+    if (BREAK_FLAG) {
+        return;
+    }
     BREAK_FLAG = true;
     break_loop = setTimeout(() => {
         ipcRenderer.send('hide-window')
-    }, BREAK_TIME)// 过休息时间后关闭窗口，即休息时间
+    }, BREAK_TIME);// 过休息时间后关闭窗口，即休息时间
     let current_break_time = BREAK_TIME;
     let break_count = setInterval(() => {
         current_break_time = current_break_time - 1000;

@@ -12,11 +12,13 @@ module.exports = function (page, x, y, width, height) {
         show: false,
         webPreferences: {
             nodeIntegration: true
-        }
+        },
+        transparent: true
     });
     window.loadFile(page);
     window.on('closed', function () {
         window = null
     });
+    // window.webContents.closeDevTools();
     return window;
 };
