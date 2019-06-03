@@ -25,7 +25,7 @@
 ### 构建步骤
 
 1. https://iconverticons.com/online/ png转换为icns
-2. electron-packager ./ break --out ./OutApp --electron-version 4.1.4 --overwrite --icon=./icon.png
+2. electron-packager ./ break --out ./OutApp --electron-version 4.2.3 --overwrite --icon=./icon.png
 
 ### 说明
 
