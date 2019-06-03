@@ -5,7 +5,7 @@ module.exports = function (mainWindow) {
     return Menu.buildFromTemplate([{
         label: '休息间隔',
         submenu: [
-            {
+           /* {
                 id: 0,
                 label: "5 秒(TEST)",
                 type: "radio",
@@ -13,7 +13,7 @@ module.exports = function (mainWindow) {
                 click: () => {
                     mainWindow.webContents.send('SET_WAIT_TIME', 5 * 1000);
                 }
-            },
+            },*/
             {
                 id: 1,
                 label: "30 分钟",

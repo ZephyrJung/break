@@ -18,20 +18,22 @@ let BREAK_FLAG = false;
 let wait_loop;
 let break_loop;
 
-ipcRenderer.send('hide-window');
+ipcRenderer.send('HIDE_WINDOW');
 
-ipcRenderer.on('RESTART_WORK', (parameter) => {
+ipcRenderer.on('RESTART_WORK', (event,arg) => {
     if (!BREAK_FLAG) {
         return;
     }
-    let waitTime = parameter[0];
+    if (!wait_loop) {
+        clearTimeout(wait_loop);
+    }
+    let waitTime = arg;
     if (!waitTime) {
         waitTime = WAIT_TIME;
     }
-    ipcRenderer.send('test',waitTime);
     BREAK_FLAG = false;
     wait_loop = setTimeout(() => {
-        ipcRenderer.send('show-window')
+        ipcRenderer.send('SHOW_WINDOW')
     }, waitTime) // 过等待时间后显示窗口，即工作时间
 });
 
@@ -39,9 +41,12 @@ ipcRenderer.on('STOP_WORK', () => {
     if (BREAK_FLAG) {
         return;
     }
+    if (!break_loop) {
+        clearTimeout(break_loop);
+    }
     BREAK_FLAG = true;
     break_loop = setTimeout(() => {
-        ipcRenderer.send('hide-window')
+        ipcRenderer.send('HIDE_WINDOW')
     }, BREAK_TIME);// 过休息时间后关闭窗口，即休息时间
     let current_break_time = BREAK_TIME;
     let break_count = setInterval(() => {
@@ -57,7 +62,7 @@ ipcRenderer.on('SET_WAIT_TIME', (event, arg) => {
     if (BREAK_FLAG === false) {
         clearTimeout(wait_loop);
         wait_loop = setTimeout(() => {
-            ipcRenderer.send('show-window')
+            ipcRenderer.send('SHOW_WINDOW')
         }, WAIT_TIME)
     }
 });
@@ -67,7 +72,7 @@ ipcRenderer.on('SEND_BREAK_TIME', (event, arg) => {
     if (BREAK_FLAG === true) {
         clearTimeout(break_loop);
         break_loop = setTimeout(() => {
-            ipcRenderer.send('hide-window')
+            ipcRenderer.send('HIDE_WINDOW')
         }, BREAK_TIME)
     }
 });
