@@ -60,7 +60,7 @@ ipcMain.on('SHOW_WINDOW', (event) => {
         mainWindows.forEach(function (value, index) {
             value.hide();
         });
-        event.sender.send('RESTART_WORK', /*60 **/ 1000);
+        event.sender.send('RESTART_WORK', /*60 **/ 1000 * 60 * 5);
         globalShortcut.unregister('CommandOrControl+Q');
         globalShortcut.unregister('CommandOrControl+W');
     });
