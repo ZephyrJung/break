@@ -20,9 +20,9 @@ let break_loop;
 
 wait_loop = setTimeout(() => {
     ipcRenderer.send('SHOW_WINDOW')
-}, WAIT_TIME);
+}, 5*1000);
 
-ipcRenderer.send('HIDE_WINDOW');
+// ipcRenderer.send('HIDE_WINDOW');
 
 ipcRenderer.on('RESTART_WORK', (event, arg) => {
     if (!BREAK_FLAG) {

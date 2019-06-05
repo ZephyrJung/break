@@ -14,7 +14,7 @@ function createWindow(x, y, width, height) {
 }
 
 app.on('ready', () => {
-    //console.log("app ready");
+    console.log("app ready");
     let displays = electron.screen.getAllDisplays();
     displays.forEach((d) => {
         // createWindow(d.workArea.x + d.workArea.width / 2 - 400, d.workArea.y + d.workArea.height / 2 - 300, 800, 600)
@@ -26,12 +26,12 @@ app.on('ready', () => {
 });
 
 app.on('window-all-closed', function () {
-    //console.log("app window-all-closed");
+    console.log("app window-all-closed");
     if (process.platform !== 'darwin') app.quit()
 });
 
 ipcMain.on('HIDE_WINDOW', function (event, arg) {
-    //console.log("ipcMain HIDE_WINDOW");
+    console.log("ipcMain HIDE_WINDOW");
     globalShortcut.unregister('CommandOrControl+Q');
     globalShortcut.unregister('CommandOrControl+W');
     mainWindows.forEach(function (value, index) {
@@ -41,7 +41,7 @@ ipcMain.on('HIDE_WINDOW', function (event, arg) {
 });
 
 ipcMain.on('SHOW_WINDOW', (event) => {
-    //console.log("ipcMain SHOW_WINDOW");
+    console.log("ipcMain SHOW_WINDOW");
     mainWindows.forEach(function (value, index) {
         value.show();
     });
@@ -67,6 +67,6 @@ ipcMain.on('SHOW_WINDOW', (event) => {
 });
 
 app.on('window-all-closed', () => {
-    //console.log("app window-all-closed");
+    console.log("app window-all-closed");
     if (appIcon) appIcon.destroy();
 });
