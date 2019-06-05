@@ -20,7 +20,7 @@ let break_loop;
 
 wait_loop = setTimeout(() => {
     ipcRenderer.send('SHOW_WINDOW')
-}, 5*1000);
+}, WAIT_TIME);
 
 // ipcRenderer.send('HIDE_WINDOW');
 
