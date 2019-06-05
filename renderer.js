@@ -18,9 +18,13 @@ let BREAK_FLAG = false;
 let wait_loop;
 let break_loop;
 
+wait_loop = setTimeout(() => {
+    ipcRenderer.send('SHOW_WINDOW')
+}, WAIT_TIME);
+
 ipcRenderer.send('HIDE_WINDOW');
 
-ipcRenderer.on('RESTART_WORK', (event,arg) => {
+ipcRenderer.on('RESTART_WORK', (event, arg) => {
     if (!BREAK_FLAG) {
         return;
     }

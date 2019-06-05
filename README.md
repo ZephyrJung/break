@@ -32,3 +32,4 @@
 1. 注意代码中的default.jpg需要自己找图片
 
 inspired by [stretchly](https://github.com/hovancik/stretchly)
+
