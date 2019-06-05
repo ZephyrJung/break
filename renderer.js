@@ -2,12 +2,12 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 const ipcRenderer = require('electron').ipcRenderer;
-const moment = require('moment');
+/*const moment = require('moment');
 
 setInterval(() => {
         document.getElementById('clock').innerText = moment().format('hh:mm:ss');
     }, 1000
-);
+);*/
 
 let WAIT_TIME = 60 * 60 * 1000;
 let BREAK_TIME = 5 * 60 * 1000;
