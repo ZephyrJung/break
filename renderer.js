@@ -31,9 +31,9 @@ ipcRenderer.on('RESTART_WORK', (event, arg) => {
     if (!wait_loop) {
         clearTimeout(wait_loop);
     }
-    let waitTime = arg;
-    if (!waitTime) {
-        waitTime = WAIT_TIME;
+    let waitTime = WAIT_TIME;
+    if (arg) {
+        waitTime = arg;
     }
     BREAK_FLAG = false;
     wait_loop = setTimeout(() => {

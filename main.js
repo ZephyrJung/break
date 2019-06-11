@@ -48,14 +48,8 @@ ipcMain.on('SHOW_WINDOW', (event) => {
     event.sender.send('STOP_WORK');
     //跳过本次休息
     globalShortcut.register("CommandOrControl+Q", () => {
-        mainWindows.forEach(function (value, index) {
-            value.hide();
-        });
-        event.sender.send('RESTART_WORK');
-        globalShortcut.unregister('CommandOrControl+Q');
-        globalShortcut.unregister('CommandOrControl+W');
     });
-    //推迟本次休息3分钟
+    //推迟本次休息5分钟
     globalShortcut.register("CommandOrControl+W", () => {
         mainWindows.forEach(function (value, index) {
             value.hide();
