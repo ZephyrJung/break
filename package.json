@@ -14,7 +14,7 @@
   "author": "Zephyr Jung",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^4.2.3",
+    "electron": "^15.5.5",
     "electron-packager": "^13.1.1"
   },
   "dependencies": {
